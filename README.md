@@ -16,28 +16,30 @@ As a consequence I believe the only reasonable way to use this code is to unders
 
 If you do any substantial calculations on Cartesian tensor notation I believe you'll find a large return on your invested time. After walking through the tutorial notebooks you will have a good understanding of whether this method could help you, and how to adapt the code to your specific needs. 
 
+Clone this repository, or [download the master branch as a .zip](https://github.com/jeinarsson/matte/archive/master.zip) to get all files mentioned below.
+
 ### Tutorials
 
 I explain the entire basic implementation, step by step, in three tutorial notebooks. 
 
-1. [tutorial01-derivatives.nb](tutorial01-derivatives.nb) representation and differentiation. 
-2. [tutorial02-contract.nb](tutorial02-contract.nb) covers contraction and simplification.
-3. [tutorial03-indices.nb](tutorial03-indices.nb) covers handling of dummy indices and other tensor symmetries. 
+1. tutorial01-derivatives.nb representation and differentiation. 
+2. tutorial02-contract.nb covers contraction and simplification.
+3. tutorial03-indices.nb covers handling of dummy indices and other tensor symmetries. 
 
 The seemingly arbitrary order is for pedagogical reasons - in order of increasing complexity.
 
 After these three tutorials the essential code is finished. The two following tutorials implement new functionality on top of the basics, and illustrate how to extend and modify the code to suit your needs.
 
-4. In [tutorial04-integrals.nb](tutorial04-integrals.nb) we implement integration over spherical volumes and surfaces.
-5. In [tutorial05-fourier-transform.nb](tutorial05-fourier-transform.nb) we implement the 3D Fourier transform of certain tensorial forms. This demonstrates how to add custom rules to the system, and deal with complicated algebraic manipulations.
+4. In tutorial04-integrals.nb we implement integration over spherical volumes and surfaces.
+5. In tutorial05-fourier-transform.nb we implement the 3D Fourier transform of certain tensorial forms. This demonstrates how to add custom rules to the system, and deal with complicated algebraic manipulations.
 
 ### Examples
 
 The examples have less explanatory text than the tutorials, but are more extensive examples of how I work with the method.
 
-In [example-sphere-in-sof-shear.nb](example-sphere-in-sof-shear.nb) I reproduce parts of the calculation in [(Einarsson & Mehlig, PRF 2017) (open access)](https://doi.org/10.1103/PhysRevFluids.2.063301). I compute the mobility of a sedimenting sphere in a second-order fluid shear flow by two methods: 1) evaluating the reciprocal integral theorem, and 2) calculating the flow velocity and stress fields and integrating them over the particle surface. 
+In example-sphere-in-sof-shear.nb I reproduce parts of the calculation in [(Einarsson & Mehlig, PRF 2017) (open access)](https://doi.org/10.1103/PhysRevFluids.2.063301). I compute the mobility of a sedimenting sphere in a second-order fluid shear flow by two methods: 1) evaluating the reciprocal integral theorem, and 2) calculating the flow velocity and stress fields and integrating them over the particle surface. 
 
-In [example-drop-in-quadratic-flow.nb](example-drop-in-quadratic-flow.nb) I derive the flow velocity and stress fields inside and outside a spherical viscous drop suspended in a quadratic viscous flow. See e.g. [(Chan & Leal, JFM 1970)](http://dx.doi.org/10.1017/S0022112079000562) for background on the problem. The problem is very labor intensive because the boundary condition is given on the stress. Therefore, we must make an ansatz for the flow field, compute the stress associated with that ansatz, and apply the boundary conditions.
+In example-drop-in-quadratic-flow.nb I derive the flow velocity and stress fields inside and outside a spherical viscous drop suspended in a quadratic viscous flow. See e.g. [(Chan & Leal, JFM 1970)](http://dx.doi.org/10.1017/S0022112079000562) for background on the problem. The problem is very labor intensive because the boundary condition is given on the stress. Therefore, we must make an ansatz for the flow field, compute the stress associated with that ansatz, and apply the boundary conditions.
 
 ## To Package or Not to Package
 
