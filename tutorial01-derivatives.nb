@@ -1,0 +1,961 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     31376,        953]
+NotebookOptionsPosition[     28645,        856]
+NotebookOutlinePosition[     29002,        872]
+CellTagsIndexPosition[     28959,        869]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["Representation", "Title"]], "Section",
+ CellChangeTimes->{{3.704476261200136*^9, 3.704476283272146*^9}, {
+  3.706448629250852*^9, 3.706448634578676*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "A single tensor is represented by a unused Mathematica symbol, and its \
+indices as arguments. For example ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Delta]", "ij"], ":"}], TraditionalForm]],
+  FormatType->"TraditionalForm"]
+}], "Subsubsection",
+ CellChangeTimes->{{3.706448667057713*^9, 3.706448747419401*^9}}],
+
+Cell[BoxData[
+ RowBox[{"delta", "[", 
+  RowBox[{
+   RowBox[{"idx", "[", "1", "]"}], ",", 
+   RowBox[{"idx", "[", "2", "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.706448722313375*^9, 3.706448725410735*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Indices are called idx[n], with n an integer.\n\nCompound tensors are \
+represented simply by the built in commutative multiplication in Mathematica. \
+For example ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Delta]", "ij"], 
+    RowBox[{
+     SubscriptBox["r", "j"], ":"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"]
+}], "Subsubsection",
+ CellChangeTimes->{{3.706448752150433*^9, 3.706448883694581*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"delta", "[", 
+   RowBox[{
+    RowBox[{"idx", "[", "1", "]"}], ",", 
+    RowBox[{"idx", "[", "2", "]"}]}], "]"}], 
+  RowBox[{"r", "[", 
+   RowBox[{"idx", "[", "2", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.706448885376329*^9, 3.706448890188118*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Scalar functions are given their own name for pattern matching purposes. \
+For example I represent the scalar ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"1", "/", 
+    SuperscriptBox["r", "6"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " as"
+}], "Subsubsection",
+ CellChangeTimes->{{3.7064492581933823`*^9, 3.70644930739809*^9}, {
+  3.706449359512868*^9, 3.706449382115327*^9}}],
+
+Cell[BoxData[
+ RowBox[{"invr", "[", "6", "]"}]], "Input",
+ CellChangeTimes->{{3.706449301667561*^9, 3.7064493117706738`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "\nOperators like differentiation are implemented as functions, for example ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{" ", 
+    RowBox[{
+     SubscriptBox["\[PartialD]", "j"], 
+     SubscriptBox["r", "i"]}]}], TraditionalForm]], "Subsection",
+  FormatType->"TraditionalForm"],
+ ":"
+}], "Subsubsection",
+ CellChangeTimes->{{3.7064489006664057`*^9, 3.706448978923808*^9}, {
+  3.706449385247321*^9, 3.706449391837039*^9}}],
+
+Cell[BoxData[
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"r", "[", 
+    RowBox[{"idx", "[", "1", "]"}], "]"}], ",", 
+   RowBox[{"idx", "[", "2", "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.706448980672123*^9, 3.706448993051099*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+where the first argument is the expression to differentiate, and the second \
+argument is the index of the partial derivative.
+
+It is a bit verbose to type in indices, so I usually do that with Module:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.7064489965351763`*^9, 3.706449084935659*^9}, {
+  3.7064494072221212`*^9, 3.706449418772447*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Module", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"i", ",", "j"}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"i", "=", 
+     RowBox[{"idx", "[", "1", "]"}]}], ";", 
+    RowBox[{"j", "=", 
+     RowBox[{"idx", "[", "2", "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"partialr", "[", 
+     RowBox[{
+      RowBox[{"r", "[", "i", "]"}], ",", "j"}], "]"}]}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.7064490878845587`*^9, 3.7064491042279177`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Or in case I want to re-use the expression many times I make a function for \
+it. For example the Stokeslet ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Delta]", "ij"], "/", "r"}], " ", "+", " ", 
+    RowBox[{
+     SubscriptBox["r", "i"], 
+     RowBox[{
+      SubscriptBox["r", "j"], "/", 
+      RowBox[{"r", "^", "3"}]}]}]}], TraditionalForm]]],
+ ":"
+}], "Subsubsection",
+ CellChangeTimes->{{3.706449116894723*^9, 3.706449172526321*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"getStokeslet", "[", 
+   RowBox[{"i_", ",", "j_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"i", ",", "j"}], "]"}], 
+    RowBox[{"invr", "[", "1", "]"}]}], "+", 
+   RowBox[{
+    RowBox[{"r", "[", "i", "]"}], 
+    RowBox[{"r", "[", "j", "]"}], 
+    RowBox[{"invr", "[", "3", "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.706449174420815*^9, 3.706449226341242*^9}, {
+  3.706449668484688*^9, 3.706449669590789*^9}}]
+}, Open  ]],
+
+Cell["\<\
+This representation is merely a convention and does not compute anything on \
+its own. The remainder of the tutorial will give meaning to these \
+expressions. In this notebook we implement the partialr operator, because it \
+is a relatively simple exercise that introduces the method of pattern \
+matching and functional programming.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.706449546381359*^9, 3.7064497130690327`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Differentiation", "Title",
+ CellChangeTimes->{{3.70644864231743*^9, 3.706448645962337*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Let\[CloseCurlyQuote]s try to compute the Laplacian of the Stokeslet:\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[PartialD]", "k"], 
+    RowBox[{
+     SubscriptBox["\[PartialD]", "k"], 
+     RowBox[{"[", 
+      RowBox[{
+       RowBox[{
+        SubscriptBox["\[Delta]", "ij"], "/", "r"}], " ", "+", " ", 
+       RowBox[{
+        SubscriptBox["r", "i"], 
+        RowBox[{
+         SubscriptBox["r", "j"], "/", 
+         RowBox[{"r", "^", "3"}]}]}]}], "]"}]}]}], TraditionalForm]]],
+ "\n\nStart with ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[PartialD]", "k"], 
+     RowBox[{"[", 
+      RowBox[{
+       RowBox[{
+        SubscriptBox["\[Delta]", "ij"], "/", "r"}], " ", "+", " ", 
+       RowBox[{
+        SubscriptBox["r", "i"], 
+        RowBox[{
+         SubscriptBox["r", "j"], "/", 
+         RowBox[{"r", "^", "3"}]}]}]}], "]"}]}], ","}], TraditionalForm]]],
+ "\nWithout any definitions, partialr is left unevaluated by Mathematica:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704476319536551*^9, 3.7044763333829317`*^9}, {
+  3.704476367490944*^9, 3.704476370159793*^9}, {3.704573852751849*^9, 
+  3.704573865850752*^9}, {3.7056853410440683`*^9, 3.7056854398742867`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7044762859022417`*^9, 3.70447630631024*^9}, {
+  3.7044763614611588`*^9, 3.704476363188261*^9}, {3.706449727676976*^9, 
+  3.706449742481699*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["1. Implement linearity", "Section",
+ CellChangeTimes->{{3.704476339083486*^9, 3.704476345852659*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.704476359704836*^9, 3.704476393511458*^9}, {
+   3.704477796246278*^9, 3.704477801084075*^9}, {3.7044778471812143`*^9, 
+   3.704477847399105*^9}, {3.70447853506763*^9, 3.7044785354479647`*^9}, {
+   3.705685758486704*^9, 3.705685761167819*^9}, 3.706449757258808*^9}],
+
+Cell[TextData[{
+ StyleBox["Here we implement a particular case of partialr, namely when the \
+expression is a sum (indicated by the pattern ex_Plus). \
+We\[CloseCurlyQuote]ll implement linearity with ", "Subsubsection"],
+ Cell[BoxData[
+  FormBox[
+   ButtonBox["Map",
+    BaseStyle->"Link",
+    ButtonData->"paclet:ref/Map"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " many times in the coming tutorials, so make sure to understand this.",
+ StyleBox["\n\n_ is the wildcard pattern that matches any expression.  _Plus \
+means any expression that is a sum. In Mathematica a sum a+b is actually \
+represented as Plus[a,b]. A product a*b is Times[a,b], and so on. The symbol \
+before the brackets is called the ", "Subsubsection"],
+ ButtonBox["Head",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Head"],
+ StyleBox[" of the expression. _X matches expressions with Head X. \n\nBy \
+prepending a name to _ the match is given a name, like ex_, so that the name \
+can be referenced in the right hand side.\n\nLearn about patterns in the \
+Mathematica help ", "Subsubsection"],
+ ButtonBox["tutorial",
+  BaseStyle->"Link",
+  ButtonData->"paclet:tutorial/Introduction-Patterns"],
+ StyleBox[".\n\nMap[list, function] means element-wise application of the \
+function onto the list. Since the sum ex_Plus is a list of terms, the \
+function gets applied to every term. The hashtag # is a placeholder for the \
+single variable, and & makes the expression an anonymous function. See help \
+for ", "Subsubsection"],
+ Cell[BoxData[
+  FormBox[
+   ButtonBox["Map",
+    BaseStyle->"Link",
+    ButtonData->"paclet:ref/Map"], TraditionalForm]]],
+ StyleBox[", and ", "Subsubsection"],
+ ButtonBox["functions",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Function"],
+ StyleBox[".\n\nThe result is that partialr on a sum becomes the sum of \
+partialr on the terms.", "Subsubsection"]
+}], "Subsubsection",
+ CellChangeTimes->{
+  3.70447688715515*^9, {3.704477710948715*^9, 3.704477770806905*^9}, {
+   3.704477828597767*^9, 3.70447787041162*^9}, {3.7044779444201508`*^9, 
+   3.704478024075659*^9}, {3.7045476297983847`*^9, 3.7045477268121977`*^9}, {
+   3.704547762099307*^9, 3.7045478172543573`*^9}, {3.705685482505211*^9, 
+   3.705685657405731*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. The product rule", "Section",
+ CellChangeTimes->{{3.7044768960863533`*^9, 3.704476899231558*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Now we are stuck with products in partialr. We implement the product rule by \
+matching expressions ex_Times:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704476955731789*^9, 3.7044769837821617`*^9}, {
+  3.704573699258739*^9, 3.704573700820928*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Product", " ", "rule"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Times", ",", "i_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Take", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Drop", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"Drop", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}]}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.704476928754101*^9, 3.704476939347623*^9}, {
+   3.7044780516407146`*^9, 3.704478053364149*^9}, {3.704478541865438*^9, 
+   3.70447854630682*^9}, {3.7056857682516327`*^9, 3.7056857783912687`*^9}, 
+   3.706449766400858*^9}]
+}, Open  ]],
+
+Cell["\<\
+Any product ex_Times is split into the first factor (given by Take[ex,1]) \
+times partialr on the remaining factors (given by Drop[ex,1]), plus partialr \
+of the first factor times the remaning factors. Since Mathematica applies \
+this definition as long as there are any products, this results in a list of \
+single-item derivatives.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.7044769932603283`*^9, 3.704477138030746*^9}, {
+   3.704547873825151*^9, 3.704547874434457*^9}, 3.704573690313384*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Expressions independent of r", "Section",
+ CellChangeTimes->{{3.704477142520266*^9, 3.704477148383469*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Next, let us match partialr on any expression that is independent of r, and \
+set them to 0:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.70447719820676*^9, 3.704477226870414*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Product", " ", "rule"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Times", ",", "i_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Take", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Drop", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"Drop", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}]}]}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"derivative", " ", "of", " ", "constants", " ", "wrt", " ", "r"}],
+     " ", "=", " ", "0"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"0", "/;", 
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"ex", ",", 
+      RowBox[{"invr", "|", "r"}]}], "]"}]}]}], " ", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.704477189546245*^9, 3.70447719021128*^9}, {
+   3.704478056404195*^9, 3.704478063941353*^9}, {3.704478551101313*^9, 
+   3.704478557336575*^9}, {3.705685783779996*^9, 3.705685805384807*^9}, 
+   3.706449775506249*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Here the trailing /; on a \[AliasDelimiter]definition means that the \
+definition is conditional (see ",
+ ButtonBox["Help",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Condition"],
+ "). In this case the condition is ",
+ ButtonBox["FreeQ",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/FreeQ"],
+ "[ex, invr | r], which returns True only if ex does not contain any \
+instances of the symbols invr or r."
+}], "Subsubsection",
+ CellChangeTimes->{{3.704477237188531*^9, 3.704477322356288*^9}, {
+  3.70454790078069*^9, 3.70454794286467*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Derivatives of r", "Section",
+ CellChangeTimes->{{3.7044773322162857`*^9, 3.704477336972159*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Now it only remains to implement the actual derivatives of either invr[m] or \
+a single r[idx[n]]:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704477365912422*^9, 3.704477403301076*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Product", " ", "rule"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Times", ",", "i_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Take", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Drop", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"Drop", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}]}]}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"derivative", " ", "of", " ", "constants", " ", "wrt", " ", "r"}],
+     " ", "=", " ", "0"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"0", "/;", 
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"ex", ",", 
+      RowBox[{"invr", "|", "r"}]}], "]"}]}]}], " ", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"derivatives", " ", "of", " ", 
+    RowBox[{"1", "/", 
+     RowBox[{"r", "^", "m"}]}], " ", "and", " ", 
+    SubscriptBox["r", "i"]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "m_", "]"}], ",", "i_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", "m"}], " ", 
+   RowBox[{"r", "[", "i", "]"}], 
+   RowBox[{"invr", "[", 
+    RowBox[{"m", "+", "2"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{
+     RowBox[{"r", "[", "i_idx", "]"}], ",", "j_"}], "]"}], ":=", 
+   RowBox[{"delta", "[", 
+    RowBox[{"i", ",", "j"}], "]"}]}], " ", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.704477358536467*^9, 3.704477359020152*^9}, {
+   3.70447764449864*^9, 3.704477659217696*^9}, {3.70447856274273*^9, 
+   3.70447856707108*^9}, {3.704478606506146*^9, 3.704478608962513*^9}, {
+   3.705685813421399*^9, 3.705685836905038*^9}, {3.705685873314864*^9, 
+   3.705685877555943*^9}, 3.706449784134616*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+And that is it. To get the Laplacian, apply partialr twice with the same \
+index:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.7044774382781363`*^9, 3.704477462998612*^9}}],
+
+Cell[BoxData[
+ RowBox[{"partialr", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{
+     RowBox[{"getStokeslet", "[", 
+      RowBox[{
+       RowBox[{"idx", "[", "1", "]"}], ",", 
+       RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+     RowBox[{"idx", "[", "3", "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"idx", "[", "3", "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.704477478264902*^9, 3.704477486410523*^9}, {
+   3.704548069288391*^9, 3.704548070907908*^9}, 3.7064497933904343`*^9}]
+}, Open  ]],
+
+Cell["\<\
+That\[CloseCurlyQuote]s not the most simplified expression, but we\
+\[CloseCurlyQuote]ll get to that shortly.
+
+For now we note that by 1) deciding on a representation, and 2) implementing \
+five simple rules of algebra, our program can already perform a real \
+calculation. 
+
+If this is your first exposure to functional programming and pattern \
+matching, it may take some time to internalize this way of thinking. It is \
+powerful because it is so close to the mathematical notation we use when on \
+paper.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.705338319034954*^9, 3.7053383567566843`*^9}, {
+  3.706450046619596*^9, 3.7064503322555103`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["5. Convenience function for nested derivatives", "Section",
+ CellChangeTimes->{{3.704477493139516*^9, 3.7044775023803377`*^9}, {
+  3.706450004383329*^9, 3.706450012265746*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "While not strictly necessary, let\[CloseCurlyQuote]s add a convenience \
+function that makes nested derivatives if you give a list of indices to \
+partialr. Look into the help for ",
+ ButtonBox["Fold",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Fold"],
+ " to understand how it works:\n\nHere is the full implementation of partialr:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.7044775085010242`*^9, 3.7044775204326277`*^9}, {
+   3.704478636240262*^9, 3.7044786399858847`*^9}, 3.704478819930344*^9, {
+   3.704547968692542*^9, 3.704548029867835*^9}, {3.704573748416133*^9, 
+   3.7045737871432037`*^9}, {3.706449954545445*^9, 3.706450017114984*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Nest", " ", "multiple", " ", "derivatives"}], ",", " ", 
+    RowBox[{
+     RowBox[{"eg", " ", 
+      RowBox[{"partialr", "[", 
+       RowBox[{"ex", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "j"}], "}"}]}], "]"}]}], "=", 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"partialr", "[", 
+        RowBox[{"ex", ",", "i"}], "]"}], ",", "j"}], "]"}]}]}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "idxs_List"}], "]"}], ":=", 
+   RowBox[{"Fold", "[", 
+    RowBox[{"partialr", ",", "ex", ",", "idxs"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Product", " ", "rule"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Times", ",", "i_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Take", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Drop", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"Drop", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}]}]}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"derivative", " ", "of", " ", "constants", " ", "wrt", " ", "r"}],
+     " ", "=", " ", "0"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"0", "/;", 
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"ex", ",", 
+      RowBox[{"invr", "|", "r"}]}], "]"}]}]}], " ", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"derivatives", " ", "of", " ", 
+    RowBox[{"1", "/", 
+     RowBox[{"r", "^", "m"}]}], " ", "and", " ", 
+    SubscriptBox["r", "i"]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "m_", "]"}], ",", "i_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", "m"}], " ", 
+   RowBox[{"r", "[", "i", "]"}], 
+   RowBox[{"invr", "[", 
+    RowBox[{"m", "+", "2"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{
+     RowBox[{"r", "[", "i_idx", "]"}], ",", "j_"}], "]"}], ":=", 
+   RowBox[{"delta", "[", 
+    RowBox[{"i", ",", "j"}], "]"}]}], " "}], "\[IndentingNewLine]"}], "Input",\
+
+ CellChangeTimes->{{3.7044786436169252`*^9, 3.7044786508761272`*^9}, {
+   3.704478711940892*^9, 3.704478716026718*^9}, {3.704573791353898*^9, 
+   3.7045737921834307`*^9}, 3.7056858888321743`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Mathematica tries patterns in the order they are defined, so the one that \
+matches any expression but with a List of indices must go first, because the \
+product rule is not true for multiple indices.
+
+The nested derivative above is now simplified to\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704477536301962*^9, 3.704477556872912*^9}, {
+   3.704478673781641*^9, 3.704478678172579*^9}, {3.704478727550063*^9, 
+   3.7044787963962717`*^9}, 3.706450355025249*^9}],
+
+Cell[BoxData[
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"idx", "[", "3", "]"}], ",", 
+     RowBox[{"idx", "[", "3", "]"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.704548061424539*^9, 3.704548063123431*^9}, {
+  3.706449873647299*^9, 3.706449880541246*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "While this is the correct expression for the Laplacian of the Stokeslet, it \
+can be much simplified with the rules of tensor algebra. The same goes for \
+these multipoles ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      SubscriptBox["\[PartialD]", "i"], 
+      SubscriptBox["\[PartialD]", "j"]}], ".."}], 
+    RowBox[{
+     SubscriptBox["\[PartialD]", "k"], 
+     RowBox[{"(", 
+      RowBox[{"1", "/", "r"}], ")"}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ":"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704478129004698*^9, 3.7044782187851143`*^9}, {
+   3.706449937176532*^9, 3.7064499429122753`*^9}, 3.706450377627071*^9, {
+   3.706450424881651*^9, 3.706450467780044*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"invr", "[", "1", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"idx", "[", "1", "]"}], "}"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"invr", "[", "1", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "}"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"invr", "[", "1", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}], ",", 
+     RowBox[{"idx", "[", "3", "]"}]}], "}"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"invr", "[", "1", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}], ",", 
+     RowBox[{"idx", "[", "3", "]"}], ",", 
+     RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7064503862986298`*^9, 3.706450418980986*^9}}]
+}, Open  ]],
+
+Cell["We address this problem in exercise02-contract.nb.", "Subsubsection",
+ CellChangeTimes->{
+  3.706450383716383*^9, {3.70645047415386*^9, 3.706450480534655*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{925, 610},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 177, 2, 83, "Section"],
+Cell[CellGroupData[{
+Cell[782, 28, 347, 9, 63, "Subsubsection"],
+Cell[1132, 39, 209, 5, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1378, 49, 449, 12, 111, "Subsubsection"],
+Cell[1830, 63, 289, 8, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2156, 76, 407, 11, 62, "Subsubsection"],
+Cell[2566, 89, 125, 2, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2728, 96, 434, 12, 64, "Subsubsection"],
+Cell[3165, 110, 242, 6, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3444, 121, 353, 7, 107, "Subsubsection"],
+Cell[3800, 130, 495, 14, 75, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4332, 149, 486, 15, 63, "Subsubsection"],
+Cell[4821, 166, 482, 14, 32, "Input"]
+}, Open  ]],
+Cell[5318, 183, 434, 7, 107, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5789, 195, 97, 1, 92, "Title"],
+Cell[CellGroupData[{
+Cell[5911, 200, 1237, 36, 137, "Subsubsection"],
+Cell[7151, 238, 520, 13, 75, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7708, 256, 107, 1, 64, "Section"],
+Cell[7818, 259, 1009, 25, 138, "Input"],
+Cell[8830, 286, 2235, 47, 447, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11102, 338, 106, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[11233, 343, 259, 5, 59, "Subsubsection"],
+Cell[11495, 350, 1660, 47, 201, "Input"]
+}, Open  ]],
+Cell[13170, 400, 507, 8, 107, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13714, 413, 116, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[13855, 418, 190, 4, 35, "Subsubsection"],
+Cell[14048, 424, 2106, 60, 264, "Input"]
+}, Open  ]],
+Cell[16169, 487, 557, 14, 83, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16763, 506, 106, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[16894, 511, 197, 4, 35, "Subsubsection"],
+Cell[17094, 517, 2933, 83, 348, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20064, 605, 182, 4, 35, "Subsubsection"],
+Cell[20249, 611, 534, 12, 75, "Input"]
+}, Open  ]],
+Cell[20798, 626, 660, 14, 203, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21495, 645, 182, 2, 64, "Section"],
+Cell[CellGroupData[{
+Cell[21702, 651, 667, 12, 107, "Subsubsection"],
+Cell[22372, 665, 3259, 95, 390, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[25668, 765, 474, 9, 107, "Subsubsection"],
+Cell[26145, 776, 445, 12, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26627, 793, 734, 20, 63, "Subsubsection"],
+Cell[27364, 815, 1073, 32, 96, "Input"]
+}, Open  ]],
+Cell[28452, 850, 165, 2, 35, "Subsubsection"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

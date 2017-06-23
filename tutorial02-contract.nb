@@ -1,0 +1,1632 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     58215,       1624]
+NotebookOptionsPosition[     54811,       1506]
+NotebookOutlinePosition[     55170,       1522]
+CellTagsIndexPosition[     55127,       1519]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+0. Bring in the definition of partialr from exercise01-partialr.nb\
+\>", "Section",
+ CellChangeTimes->{{3.704478857426948*^9, 3.704478879155058*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "partialr", "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Nest", " ", "multiple", " ", "derivatives"}], ",", " ", 
+    RowBox[{
+     RowBox[{"eg", " ", 
+      RowBox[{"partialr", "[", 
+       RowBox[{"ex", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "j"}], "}"}]}], "]"}]}], "=", 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"partialr", "[", 
+        RowBox[{"ex", ",", "i"}], "]"}], ",", "j"}], "]"}]}]}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "idxs_List"}], "]"}], ":=", 
+   RowBox[{"Fold", "[", 
+    RowBox[{"partialr", ",", "ex", ",", "idxs"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", "Linearity", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Plus", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"partialr", "[", 
+       RowBox[{"#", ",", "i"}], "]"}], "&"}], ",", "ex"}], "]"}]}], " ", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Product", " ", "rule"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_Times", ",", "i_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Take", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Drop", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{"Drop", "[", 
+      RowBox[{"ex", ",", "1"}], "]"}], 
+     RowBox[{"partialr", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{"ex", ",", "1"}], "]"}], ",", "i"}], "]"}]}]}]}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"derivative", " ", "of", " ", "constants", " ", "wrt", " ", "r"}],
+     " ", "=", " ", "0"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"partialr", "[", 
+    RowBox[{"ex_", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"0", "/;", 
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"ex", ",", 
+      RowBox[{"invr", "|", "r"}]}], "]"}]}]}], " ", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"derivatives", " ", "of", " ", 
+    RowBox[{"1", "/", 
+     RowBox[{"r", "^", "m"}]}], " ", "and", " ", 
+    SubscriptBox["r", "i"]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "m_", "]"}], ",", "i_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", "m"}], " ", 
+   RowBox[{"r", "[", "i", "]"}], 
+   RowBox[{"invr", "[", 
+    RowBox[{"m", "+", "2"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"r", "[", "i_idx", "]"}], ",", "j_"}], "]"}], ":=", 
+  RowBox[{"delta", "[", 
+   RowBox[{"i", ",", "j"}], "]"}], " "}]}], "Input",
+ CellChangeTimes->{3.7056859157907763`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["1. Enter Laplacian of Stokeslet", "Section",
+ CellChangeTimes->{{3.704478939476881*^9, 3.704478962554283*^9}, {
+  3.704573879930262*^9, 3.704573880787512*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"getStokeslet", "[", 
+   RowBox[{"i_", ",", "j_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"i", ",", "j"}], "]"}], 
+    RowBox[{"invr", "[", "1", "]"}]}], "+", 
+   RowBox[{
+    RowBox[{"r", "[", "i", "]"}], 
+    RowBox[{"r", "[", "j", "]"}], 
+    RowBox[{"invr", "[", "3", "]"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"partialr", "[", 
+  RowBox[{
+   RowBox[{"getStokeslet", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"idx", "[", "3", "]"}], ",", 
+     RowBox[{"idx", "[", "3", "]"}]}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7044791054175577`*^9, 3.704479123571886*^9}, {
+  3.704479202867646*^9, 3.704479203038622*^9}, {3.706450533331972*^9, 
+  3.706450550860512*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+It is hard to do simple pattern matching with all these parentheses, so we \
+Expand them with Mathematica\[CloseCurlyQuote]s built in Expand function. We\
+\[CloseCurlyQuote]ll call this expression x:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704479017260293*^9, 3.7044790902223682`*^9}, {
+  3.704479180876543*^9, 3.704479181894085*^9}, {3.704479225635344*^9, 
+  3.70447926930373*^9}, {3.704546971623184*^9, 3.704546971697834*^9}, {
+  3.705685934920846*^9, 3.705685935746929*^9}, {3.7064505686660967`*^9, 
+  3.706450575712451*^9}}],
+
+Cell[BoxData[
+ RowBox[{"x", "=", 
+  RowBox[{"Expand", "[", "\[IndentingNewLine]", 
+   RowBox[{"partialr", "[", 
+    RowBox[{
+     RowBox[{"getStokeslet", "[", 
+      RowBox[{
+       RowBox[{"idx", "[", "1", "]"}], ",", 
+       RowBox[{"idx", "[", "2", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"idx", "[", "3", "]"}], ",", 
+       RowBox[{"idx", "[", "3", "]"}]}], "}"}]}], "]"}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.70447918344811*^9, 3.704479185228615*^9}, {
+   3.704479215693809*^9, 3.704479223474409*^9}, 3.70645056416607*^9}]
+}, Open  ]],
+
+Cell["Much better, right? Now we can look for patterns.", "Subsubsection",
+ CellChangeTimes->{
+  3.7044801784800386`*^9, {3.706450592308982*^9, 3.706450601548009*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Make replacement rules for algebra", "Section",
+ CellChangeTimes->{{3.704480153862421*^9, 3.704480169448515*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Let\[CloseCurlyQuote]s start simple: The last two terms above contain \
+r[idx[3]]^2, which in traditional notation would be ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["r", "k"], 
+     SubscriptBox["r", "k"]}], "=", 
+    RowBox[{"r", "^", "2."}]}], TraditionalForm]]],
+ " This is our first pattern matching replacement rule: "
+}], "Subsubsection",
+ CellChangeTimes->{{3.704479277309121*^9, 3.704479334386648*^9}, {
+  3.7044794238624268`*^9, 3.704479490673683*^9}, {3.704480175625308*^9, 
+  3.7044802092100163`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+     RowBox[{"invr", "[", 
+      RowBox[{"-", "2"}], "]"}]}], "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "x", "]"}], "/.", "tensorRules"}]}], "Input",
+ CellChangeTimes->{{3.7044793219095297`*^9, 3.7044794040412197`*^9}, {
+  3.7044799914135103`*^9, 3.704479993735334*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "We define a list of rules named tensorRules. The /. is shorthand for \
+Replace (with the rules on the right of /.). Now is a good time to review the \
+Mathematica documentation on ",
+ ButtonBox["rules and patterns",
+  BaseStyle->"Link",
+  ButtonData->"paclet:guide/RulesAndPatterns"],
+ ", and the ",
+ ButtonBox["tutorial on patterns",
+  BaseStyle->"Link",
+  ButtonData->"paclet:tutorial/Introduction-Patterns"],
+ ".\n\nThe rule matches an r with any idx inside, squared, and replaces that \
+with invr[-2]. \n\nBut now we have products of invr[m] in our expression, for \
+example invr[-2] invr[7]. We know that ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["r", "m1"], 
+     SuperscriptBox["r", "m2"]}], "=", 
+    SuperscriptBox["r", 
+     RowBox[{"m1", "+", "m2"}]]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", so let us make another rule:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704479500254148*^9, 3.70447958825979*^9}, {
+  3.704480019628277*^9, 3.704480027071817*^9}, {3.7044802204437933`*^9, 
+  3.7044803147697906`*^9}, {3.7045470154469833`*^9, 3.704547022656245*^9}, {
+  3.704547055027306*^9, 3.704547110101913*^9}, {3.7045472054005737`*^9, 
+  3.704547394682967*^9}, {3.704547462311648*^9, 3.704547552565906*^9}, {
+  3.704547595937928*^9, 3.704547596752091*^9}, {3.704548112110989*^9, 
+  3.70454811639927*^9}, {3.70568597070726*^9, 3.705685971373249*^9}, {
+  3.706450670804627*^9, 3.706450734782133*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"-", "2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m1_", "]"}], 
+       RowBox[{"invr", "[", "m2_", "]"}]}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m1", "+", "m2"}], "]"}]}]}], "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "x", "]"}], "/.", 
+  "tensorRules"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}]}], "Input",
+ CellChangeTimes->{{3.7044796096006804`*^9, 3.704479650479972*^9}, 
+   3.704479712360044*^9, {3.704479815204645*^9, 3.7044798162767153`*^9}, {
+   3.704479965476207*^9, 3.704479977797641*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "The new rule matches products of invr, and replaces them with one combined \
+invr.\n\nThe percentage sign ",
+ ButtonBox["% means \[OpenCurlyDoubleQuote]the previous output\
+\[CloseCurlyDoubleQuote]",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Out"],
+ " in Mathematica. It is very useful when applying a sequence of steps, but I \
+recommend to only use it within a single Cell in a notebook, otherwise we \
+cannot guarantee the execution order, and the value of % is unpredictable.\n\n\
+We had to apply the rules twice now. The first time contracted r[idx[3]]^2, \
+then we had to apply them again for invr[-2] invr[7] to turn into invr[5].\
+\[LineSeparator]\nYou may say that we could use ",
+ ButtonBox["//. (iterative replace)",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/ReplaceRepeated"],
+ ", and you\[CloseCurlyQuote]d be right in this particular case. However, \
+there are edge cases where that may be dangerous, and the whole point is to \
+use this algorithm on calculations where it is not feasible to inspect every \
+step manually. To be safe the operating procedure is Expand -> Replace -> \
+Expand -> Replace, and so on until the expression stops changing. By doing \
+this we may write replacement rules assuming they operate on a single \
+tensorial term without parenthesis or sums. \n\nDon\[CloseCurlyQuote]t worry, \
+we\[CloseCurlyQuote]ll automate the Expand -> Replace cycle shortly, but \
+first we shall make some more rules!\n\nNext, we have many delta\
+\[CloseCurlyQuote]s that share repeated indices with other tensors, and could \
+therefore be contracted. A simple rule to match some of them would be for \
+example"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704479675646329*^9, 3.704479826137237*^9}, {
+  3.7044798607875433`*^9, 3.70447995953274*^9}, {3.704480037322651*^9, 
+  3.7044800735502872`*^9}, {3.7044803277282352`*^9, 3.7044804879091883`*^9}, {
+  3.7045481654482203`*^9, 3.7045481803075314`*^9}, {3.704549693320901*^9, 
+  3.704549802791184*^9}, {3.7045498346369*^9, 3.7045498636089573`*^9}, {
+  3.704573958363888*^9, 3.704573971363222*^9}, {3.705686044047359*^9, 
+  3.7056860565744953`*^9}, {3.706450755657905*^9, 3.706450796751889*^9}, {
+  3.7064508342880707`*^9, 3.706450877406884*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"i_", ",", "j_idx"}], "]"}], 
+    RowBox[{"s_", "[", "j_", "]"}]}], "\[RuleDelayed]", 
+   RowBox[{"s", "[", "i", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"j_idx", ",", "i_"}], "]"}], 
+    RowBox[{"s_", "[", "j_", "]"}]}], "\[RuleDelayed]", 
+   RowBox[{"s", "[", "i", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"i_", ",", "j_idx"}], "]"}], 
+    RowBox[{"s_", "[", 
+     RowBox[{"j_", ",", "k_"}], "]"}]}], "\[RuleDelayed]", 
+   RowBox[{"s", "[", 
+    RowBox[{"i", ",", "k"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{"j_idx", ",", "i_"}], "]"}], 
+    RowBox[{"s_", "[", 
+     RowBox[{"j_", ",", "k_"}], "]"}]}], "\[RuleDelayed]", 
+   RowBox[{"s", "[", 
+    RowBox[{"i", ",", "k"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7044804668207617`*^9, 3.704480470296163*^9}, {
+  3.704548214659562*^9, 3.704548300348237*^9}, {3.7045498493582172`*^9, 
+  3.704549856992519*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+and so on, for all combinations. A slightly more compact rule that takes more \
+tensor combinations into account is the following:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704480492002468*^9, 3.704480520114196*^9}, {
+  3.706450899584244*^9, 3.706450907466015*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"-", "2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m1_", "]"}], 
+       RowBox[{"invr", "[", "m2_", "]"}]}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m1", "+", "m2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_", ",", "j_idx"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"j_idx", ",", "i_"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", "x", "]"}], "/.", "tensorRules"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}]}], "Input",
+ CellChangeTimes->{{3.7044805321771193`*^9, 3.7044806186707077`*^9}, {
+  3.704480742924814*^9, 3.704480751737878*^9}, {3.704480833304063*^9, 
+  3.704480846903325*^9}, {3.705338445979332*^9, 3.7053384464861813`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+The general rule says: find a delta[i,j] multiplied with another expression s \
+that contains the index j. Replace that product with s, but with j replaced \
+by i. The second rule is the same but for delta[j,i].
+
+Great! But now the expression contains delta[k,k] = Tr[delta] = 3 (in three \
+spatial dimensions, which we assume here).
+\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.7044806577498617`*^9, 3.704480827538661*^9}, {
+   3.704548321781464*^9, 3.704548359702881*^9}, {3.704573997655723*^9, 
+   3.7045739986136847`*^9}, {3.706450979654048*^9, 3.706450981560973*^9}, {
+   3.706451013109146*^9, 3.706451015293646*^9}, 3.706451417199534*^9, 
+   3.706451614224515*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "tensorRules", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"-", "2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m1_", "]"}], 
+       RowBox[{"invr", "[", "m2_", "]"}]}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m1", "+", "m2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_", ",", "j_idx"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"j_idx", ",", "i_"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"delta", "[", 
+       RowBox[{"i_idx", ",", "i_"}], "]"}], "\[RuleDelayed]", "3"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_idx", ",", "j_idx"}], "]"}], "^", "2"}], "\[RuleDelayed]", 
+      "3"}]}], " ", "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "x", "]"}], "/.", 
+  "tensorRules"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "%", "]"}], "/.", 
+  "tensorRules"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.704480861559861*^9, 3.704480882687093*^9}, {
+  3.705338458783441*^9, 3.7053384591556253`*^9}, {3.7053386995083*^9, 
+  3.70533886647858*^9}, {3.705338958423934*^9, 3.705338971916025*^9}, {
+  3.705339008639098*^9, 3.705339008925845*^9}, {3.7053419848539133`*^9, 
+  3.70534198496058*^9}, {3.7056861861009817`*^9, 3.7056861877058897`*^9}, {
+  3.706451617655377*^9, 3.7064516805070887`*^9}}]
+}, Open  ]],
+
+Cell[TextData[{
+ "And that was enough to simplify the Laplacian of the Stokeslet!\n\nWe will \
+soon run into more traces of tensors and squares of vectors. In the next \
+notebook we will treat tensor symmetries, and then we\[CloseCurlyQuote]ll \
+generalize these rules to more cases than just ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Delta]", "ij"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ". But first, some more rules."
+}], "Subsubsection",
+ CellChangeTimes->{{3.7044811822417583`*^9, 3.7044811940707083`*^9}, {
+  3.70457401922621*^9, 3.704574024884768*^9}, {3.7053384748689203`*^9, 
+  3.70533847569592*^9}, {3.705686118001388*^9, 3.7056861540225163`*^9}, {
+  3.7056862116819572`*^9, 3.705686220293508*^9}, {3.706451707217067*^9, 
+  3.706451841302517*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Some more rules", "Section",
+ CellChangeTimes->{{3.704481205666724*^9, 3.704481210905252*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "In general, you could just attempt a calculation, and once the program \
+stops simplifying, but you can spot a simplification - add the general rule \
+to tensorRules and carry on. For example: try to calculate ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[Del]", "4"], "G_ij:"}], TraditionalForm]]]
+}], "Subsubsection",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7044812135197363`*^9, 3.704481268640728*^9}, {
+  3.70450162896666*^9, 3.704501670497476*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", 
+    RowBox[{"partialr", "[", 
+     RowBox[{"x", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"idx", "[", "4", "]"}], ",", 
+        RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}], "]"}], "/.", 
+   "tensorRules"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}]}], "Input",
+ CellChangeTimes->{{3.7045016816594477`*^9, 3.704501760101307*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["We need to add a rule for the invr[-2]^2 terms:", "Subsubsection",
+ CellChangeTimes->{{3.704501764110545*^9, 3.704501787843371*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"Clear", "[", "tensorRules", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"-", "2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m1_", "]"}], 
+       RowBox[{"invr", "[", "m2_", "]"}]}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m1", "+", "m2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m_", "]"}], "^", "n_"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m", " ", "n"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_", ",", "j_idx"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"j_idx", ",", "i_"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"delta", "[", 
+       RowBox[{"i_idx", ",", "i_"}], "]"}], "\[RuleDelayed]", "3"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_idx", ",", "j_idx"}], "]"}], "^", "2"}], "\[RuleDelayed]", 
+      "3"}]}], " ", "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", 
+    RowBox[{"partialr", "[", 
+     RowBox[{"x", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"idx", "[", "4", "]"}], ",", 
+        RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}], "]"}], "/.", 
+   "tensorRules"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Expand", "[", "%", "]"}], "/.", "tensorRules"}]}], "Input",
+ CellChangeTimes->{{3.704501796581489*^9, 3.704501816286075*^9}, {
+  3.704548918877058*^9, 3.704548923274845*^9}, {3.70533849164791*^9, 
+  3.705338492076392*^9}, {3.7053390647776012`*^9, 3.705339076587929*^9}, {
+  3.705341990668516*^9, 3.705341990797147*^9}, {3.7064518598706493`*^9, 
+  3.706451873841159*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "OK!\n\nWe also add the rule  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["r", "0"], "=", "1"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " and arrive at the basic rules that serve as a starting point for the next \
+tutorial:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704501825302177*^9, 3.704501836669574*^9}, {
+  3.704501884353702*^9, 3.704501936369175*^9}, {3.704574061689723*^9, 
+  3.704574067777031*^9}, {3.705686365305007*^9, 3.7056863694022512`*^9}, {
+  3.706451935364414*^9, 3.706451984066511*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "tensorRules", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tensorRules", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"treat", " ", 
+      RowBox[{"invr", "'"}], "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"r", "[", "i_idx", "]"}], "^", "2"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"-", "2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m1_", "]"}], 
+       RowBox[{"invr", "[", "m2_", "]"}]}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m1", "+", "m2"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"invr", "[", "m_", "]"}], "^", "n_"}], "\[RuleDelayed]", 
+      RowBox[{"invr", "[", 
+       RowBox[{"m", " ", "n"}], "]"}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"invr", "[", "0", "]"}], "\[RuleDelayed]", "1"}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "contract", " ", "deltas", " ", "with", " ", "other", " ", "tensors"}], 
+      " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_", ",", "j_idx"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"j_idx", ",", "i_"}], "]"}], "s_"}], " ", "\[RuleDelayed]", 
+      " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"s", "/.", 
+         RowBox[{"j", "\[Rule]", "i"}]}], ")"}], "/;", 
+       RowBox[{"Not", "[", 
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"s", ",", "j"}], "]"}], "]"}]}]}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", "traces", " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"delta", "[", 
+       RowBox[{"i_idx", ",", "i_"}], "]"}], "\[RuleDelayed]", "3"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"delta", "[", 
+        RowBox[{"i_idx", ",", "j_idx"}], "]"}], "^", "2"}], "\[RuleDelayed]", 
+      "3"}]}], " ", "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.704501951296218*^9, 3.7045019599708223`*^9}, {
+   3.7045026369491253`*^9, 3.7045028303772507`*^9}, {3.704546923325829*^9, 
+   3.7045469251053257`*^9}, 3.704574057007379*^9, {3.704574203751655*^9, 
+   3.704574205833741*^9}, {3.705338510063229*^9, 3.7053385635602922`*^9}, {
+   3.7053386108559437`*^9, 3.705338620955755*^9}, {3.705338656449726*^9, 
+   3.705338671607033*^9}, {3.705339102404207*^9, 3.705339223994182*^9}, {
+   3.705341974504139*^9, 3.7053419746024714`*^9}, {3.705686466494741*^9, 
+   3.705686467825893*^9}, 3.705686532318989*^9, {3.706451907135228*^9, 
+   3.706451943799136*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Automated contraction", "Section",
+ CellChangeTimes->{{3.704501986496087*^9, 3.704502000758745*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Expanding and applying the rules and checking the result for convergence is \
+tedious. Here is a function contract that automates this process:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.7045020025812674`*^9, 3.7045020525474777`*^9}, {
+  3.704546842305582*^9, 3.7045468534463043`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"if", " ", "ex", " ", "is", " ", "sum"}], ",", " ", 
+    RowBox[{"distribute", " ", "over", " ", "terms"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"contract", "[", "ex_Plus", "]"}], ":=", " ", 
+     RowBox[{"Map", "[", 
+      RowBox[{"contract", ",", "ex"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "If", " ", "no", " ", "sums", " ", "of", " ", "tensors", " ", "in", " ", 
+      "expression"}], ",", " ", 
+     RowBox[{
+     "apply", " ", "tensorRules", " ", "and", " ", "Expand", " ", "until", 
+      " ", "convergence"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contract", "[", "ex_", "]"}], ":=", "  ", 
+     RowBox[{
+      RowBox[{"FixedPoint", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Expand", "[", 
+          RowBox[{"#", "/.", "tensorRules"}], "]"}], "&"}], ",", "ex"}], 
+       "]"}], "/;", 
+      RowBox[{"FreeQ", "[", 
+       RowBox[{"ex", ",", 
+        RowBox[{"_Plus", "?", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Not", "[", 
+            RowBox[{"FreeQ", "[", 
+             RowBox[{"#", ",", "idx"}], "]"}], "]"}], "&"}], ")"}]}]}], 
+       "]"}]}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"For", " ", "all", " ", "other", " ", "cases"}], ",", " ", 
+     RowBox[{"Expand", " ", "and", " ", "try", " ", "again"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"contract", "[", "ex_", "]"}], ":=", " ", 
+     RowBox[{"contract", "[", 
+      RowBox[{"Expand", "[", "ex", "]"}], "]"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.70450209038761*^9, 3.704502122746266*^9}, {
+  3.704502629118268*^9, 3.70450263259568*^9}, {3.704546861307149*^9, 
+  3.704546867308608*^9}, {3.704546903140304*^9, 3.70454691228719*^9}, {
+  3.704548437418995*^9, 3.704548471065168*^9}, {3.706452017920165*^9, 
+  3.706452027394485*^9}, {3.7064520839702797`*^9, 3.706452112935794*^9}}]
+}, Open  ]],
+
+Cell["\<\
+Note that this definition of contract creates an infinite loop if there are \
+un-Expandable sums in the expression. I keep this \
+\[OpenCurlyDoubleQuote]feature\[CloseCurlyDoubleQuote] to catch typos and \
+ensure my replacement rules only operate on products.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704548473743029*^9, 3.704548590114188*^9}, {
+  3.704548643039337*^9, 3.704548741546859*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Now, finally, we can type in commands like", "Subsubsection",
+ CellChangeTimes->{{3.704502133541189*^9, 3.704502144858017*^9}, {
+  3.704548765990831*^9, 3.7045487698815937`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"x", "//", "contract"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{"%", ",", 
+    RowBox[{"idx", "[", "3", "]"}]}], "]"}], "//", 
+  "contract"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{"%", ",", 
+    RowBox[{"idx", "[", "3", "]"}]}], "]"}], "//", "contract"}]}], "Input",
+ CellChangeTimes->{{3.704502146994233*^9, 3.704502230504053*^9}, {
+  3.70454934163481*^9, 3.704549342527617*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "x // f is the same as f[x] (see ",
+ ButtonBox["Postfix",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Postfix"],
+ "), and I find it more pleasing to type \nexpression // contract than \
+contract[expression].\n\nThe multipoles from the previous notebook are now:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704502843180068*^9, 3.7045028462889977`*^9}, {
+  3.704550121052055*^9, 3.704550122930893*^9}, {3.704550177785041*^9, 
+  3.704550241719515*^9}, {3.7056879541724052`*^9, 3.705687954796714*^9}, {
+  3.706452175082696*^9, 3.706452208767763*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "1", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"idx", "[", "1", "]"}], "}"}]}], "]"}], "//", 
+  "contract"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "1", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}]}], "}"}]}], "]"}], "//", 
+  "contract"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "1", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}], ",", 
+      RowBox[{"idx", "[", "3", "]"}]}], "}"}]}], "]"}], "//", 
+  "contract"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"partialr", "[", 
+   RowBox[{
+    RowBox[{"invr", "[", "1", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}], ",", 
+      RowBox[{"idx", "[", "3", "]"}], ",", 
+      RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}], "//", 
+  "contract"}]}], "Input",
+ CellChangeTimes->{{3.706452203696938*^9, 3.7064522166209593`*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["5. Pretty printing", "Section",
+ CellChangeTimes->{{3.7056879665507793`*^9, 3.705687969375896*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+The pattern matching technique requires expanded expressions and numbered \
+indices that are somewhat cumbersome to read compared to the usual notation. \
+Take this multipole combination for example:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.705688115028566*^9, 3.705688150859106*^9}, {
+  3.705688189097206*^9, 3.705688252541727*^9}, {3.7056888080151443`*^9, 
+  3.705688809823799*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"delta", "[", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}]}], "]"}], 
+    RowBox[{"invr", "[", "1", "]"}]}], "+", 
+   RowBox[{
+    RowBox[{"r", "[", 
+     RowBox[{"idx", "[", "1", "]"}], "]"}], 
+    RowBox[{"r", "[", 
+     RowBox[{"idx", "[", "2", "]"}], "]"}], 
+    RowBox[{"invr", "[", "3", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"ugly", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a", "[", 
+        RowBox[{"idx", "[", "2", "]"}], "]"}], "+", 
+       RowBox[{"b", "[", 
+        RowBox[{"idx", "[", "2", "]"}], "]"}]}], ")"}], " ", "%"}], "+", 
+    RowBox[{
+     RowBox[{"c", "[", 
+      RowBox[{"idx", "[", "2", "]"}], "]"}], " ", 
+     RowBox[{"partialr", "[", 
+      RowBox[{"%", ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"idx", "[", "4", "]"}], ",", 
+         RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}]}]}], "//", 
+   "contract"}]}]}], "Input",
+ CellChangeTimes->{{3.70568825391292*^9, 3.705688306729601*^9}, 
+   3.7056883558984213`*^9, {3.705688402050988*^9, 3.705688426796228*^9}, {
+   3.705688650388199*^9, 3.7056887726134977`*^9}, {3.705688823945961*^9, 
+   3.705688843400442*^9}, {3.705688895821609*^9, 3.705688934902828*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+The function \[OpenCurlyDoubleQuote]prettyprint\[CloseCurlyDoubleQuote] \
+groups terms with identical tensorial parts, simplifies the scalar prefactor, \
+replaces the lowest indices idx[1]-idx[8] with the letters ijklpqrs, and uses \
+Mathematica\[CloseCurlyQuote]s subscript notation for indices for presentation.
+
+The prettyprint uses two helper functions: 
+\[OpenCurlyQuote]prettyreplace\[CloseCurlyQuote] just applies the replacement \
+rules that makes an expression prettier:
+\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.705688449355833*^9, 3.705688459848927*^9}, {
+  3.7056885009153013`*^9, 3.7056885778480883`*^9}, {3.7056889545406017`*^9, 
+  3.705688959099403*^9}, {3.705758226214613*^9, 3.705758238385684*^9}, {
+  3.706452262016683*^9, 3.706452379026744*^9}, {3.70645244637523*^9, 
+  3.706452537382375*^9}, {3.706452886315878*^9, 3.706452988668991*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "this", " ", "helper", " ", "function", " ", "applies", " ", "the", " ", 
+    "replacement", " ", "rules"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Clear", "[", "prettyreplace", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prettyreplace", "[", "ex_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"temp", ",", "prettyindices"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"prettyindices", "=", 
+        RowBox[{"{", 
+         RowBox[{
+         "i", ",", "j", ",", "k", ",", "l", ",", "p", ",", "q", ",", "r", ",",
+           "s"}], "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"temp", "=", 
+        RowBox[{"ex", "/.", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"invr", "[", "m_", "]"}], "\[RuleDelayed]", 
+            RowBox[{"1", "/", 
+             RowBox[{"r", "^", "m"}]}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{"delta", "\[Rule]", "\[Delta]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"eps", "\[Rule]", "\[Epsilon]"}]}], "\[IndentingNewLine]", 
+          "}"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"subscript", " ", "index", " ", "notation"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"temp", "=", 
+        RowBox[{"temp", "/.", 
+         RowBox[{
+          RowBox[{"s_", "[", 
+           RowBox[{"i", ":", 
+            RowBox[{"_idx", ".."}]}], "]"}], "\[RuleDelayed]", 
+          SubscriptBox["s", "i"]}]}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"numbered", " ", "indices", " ", "to", " ", "letters"}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"temp", " ", "=", " ", 
+        RowBox[{"temp", "/.", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"idx", "[", "c", "]"}], "\[Rule]", 
+            RowBox[{"prettyindices", "[", 
+             RowBox[{"[", "c", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"c", ",", "1", ",", 
+             RowBox[{"Length", "[", "prettyindices", "]"}]}], "}"}]}], 
+          "]"}]}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"getStokeslet", "[", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}]}], "]"}], "//", "prettyreplace"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.705688405122979*^9, 3.70568840790016*^9}, {
+  3.705688844902914*^9, 3.7056888452267723`*^9}, {3.705689010089011*^9, 
+  3.705689031174551*^9}, {3.705757743522419*^9, 3.705757744755958*^9}, {
+  3.705757940431333*^9, 3.705757993394816*^9}, {3.7057580281789207`*^9, 
+  3.705758030893757*^9}, {3.7057580986298532`*^9, 3.705758176615521*^9}, {
+  3.705758355496538*^9, 3.705758545332922*^9}, {3.705758596071599*^9, 
+  3.7057586691884193`*^9}, {3.705758741237318*^9, 3.705758988455305*^9}, {
+  3.705759049075667*^9, 3.7057590680864162`*^9}, {3.7064524159272118`*^9, 
+  3.706452476261903*^9}, {3.70645255420267*^9, 3.7064526034323597`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+\[OpenCurlyQuote]splitScalarsTensors\[CloseCurlyQuote] isolates the scalar \
+and tensorial parts of an expression, which allows prettyprint to group terms \
+by identical tensorial forms.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.706452614423852*^9, 3.706452657091771*^9}}],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "this", " ", "helper", " ", "takes", " ", "one", " ", "term", " ", "and", 
+    " ", "splits", " ", "it", " ", "into", " ", "a", " ", "tuple", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"scalar", " ", "part"}], ",", " ", 
+      RowBox[{"tensorial", " ", "part"}]}], "}"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Clear", "[", "splitScalarsTensors", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"splitScalarsTensors", "[", "ex_Times", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", "temp", "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "gather", " ", "scalar", " ", "and", " ", "tensorial", " ", "part"}],
+          " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"temp", "=", 
+          RowBox[{"GroupBy", "[", 
+           RowBox[{
+            RowBox[{"List", "@@", "ex"}], ",", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"FreeQ", "[", 
+               RowBox[{"#", ",", "idx"}], "]"}], "&"}], ")"}]}], "]"}]}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{"multiply", " ", "factors", " ", "back", " ", "together"}], 
+          " ", "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"temp", "=", 
+          RowBox[{"Map", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Times", "@@", "#"}], "&"}], ",", "temp"}], "]"}]}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Lookup", "[", 
+            RowBox[{"temp", ",", "True", ",", "1"}], "]"}], ",", 
+           RowBox[{"Lookup", "[", 
+            RowBox[{"temp", ",", "False", ",", "1"}], "]"}]}], "}"}]}]}], 
+       "\[IndentingNewLine]", "]"}], "/;", " ", 
+      RowBox[{"FreeQ", "[", 
+       RowBox[{"ex", ",", 
+        RowBox[{"_Plus", "?", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Not", "[", 
+            RowBox[{"FreeQ", "[", 
+             RowBox[{"#", ",", "idx"}], "]"}], "]"}], "&"}], ")"}]}]}], 
+       "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"splitScalarsTensors", "[", "ex_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"FreeQ", "[", 
+         RowBox[{"ex", ",", "idx"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"ex", ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"1", ",", "ex"}], "}"}]}], "]"}], "/;", " ", 
+      RowBox[{"FreeQ", "[", 
+       RowBox[{"ex", ",", 
+        RowBox[{"_Plus", "?", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Not", "[", 
+            RowBox[{"FreeQ", "[", 
+             RowBox[{"#", ",", "idx"}], "]"}], "]"}], "&"}], ")"}]}]}], 
+       "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"splitScalarsTensors", "[", "ex_", "]"}], ":=", 
+    RowBox[{
+    "Print", "[", 
+     "\"\<splitScalarsTensors: Error: Sum of tensorial expressions.\>\"", 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "examples", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"r", "[", 
+      RowBox[{"idx", "[", "1", "]"}], "]"}], 
+     RowBox[{"r", "[", 
+      RowBox[{"idx", "[", "2", "]"}], "]"}], 
+     RowBox[{"invr", "[", "3", "]"}]}], "//", "splitScalarsTensors"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"4", " ", 
+     RowBox[{"invr", "[", "6", "]"}], " ", 
+     RowBox[{"r", "[", 
+      RowBox[{"idx", "[", "1", "]"}], "]"}], " ", 
+     RowBox[{"r", "[", 
+      RowBox[{"idx", "[", "2", "]"}], "]"}], " ", 
+     RowBox[{"v", "[", 
+      RowBox[{"idx", "[", "1", "]"}], "]"}], " ", 
+     RowBox[{"v", "[", 
+      RowBox[{"idx", "[", "2", "]"}], "]"}]}], "//", "splitScalarsTensors"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.706452661751408*^9, 3.706452729117914*^9}, {
+  3.706452794897675*^9, 3.706452802875407*^9}, {3.706453039149705*^9, 
+  3.7064530395022707`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+\[OpenCurlyQuote]prettyprint\[CloseCurlyQuote] applies splitScalarsTensors to \
+all terms, groups them by the tensorial part, simplifies the scalar \
+prefactors, and finally applies \[OpenCurlyQuote]prettyreplace\
+\[CloseCurlyQuote] to the whole thing.\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.706452817215974*^9, 3.706452869919508*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "groups", " ", "terms", " ", "by", " ", "tensorial", " ", "expression", 
+    " ", "and", " ", "then", " ", "calls", " ", "prettyreplace"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Clear", "[", "prettyprint", "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prettyprint", "[", "ex_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "temp", "}"}], ",", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"If", " ", "not", " ", "sum"}], ",", " ", 
+        RowBox[{"nothing", " ", "to", " ", "collect"}], ",", " ", 
+        RowBox[{"so", " ", "just", " ", "call", " ", "prettyreplace"}]}], " ",
+        "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Not", "[", 
+          RowBox[{
+           RowBox[{"Head", "[", "ex", "]"}], "===", "Plus"}], "]"}], ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"prettyreplace", "[", "ex", "]"}], "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "make", " ", "list", " ", "of", " ", "terms", " ", "in", " ", "sum"}],
+         " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"temp", "=", 
+        RowBox[{"List", "@@", "ex"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "split", " ", "each", " ", "term", " ", "into", " ", "scalar", " ", 
+         "and", " ", "tensorial", " ", "factors"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"temp", " ", "=", " ", 
+        RowBox[{"splitScalarsTensors", "/@", "temp"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Group", " ", "terms", " ", "with", " ", "equal", " ", "tensorial", 
+         " ", "expressions"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"temp", " ", "=", " ", 
+        RowBox[{"GroupBy", "[", 
+         RowBox[{"temp", ",", "Last"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Combine", " ", "and", " ", "simplify", " ", "scalar", " ", 
+         "prefactors"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"temp", " ", "=", " ", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Simplify", "@", 
+            RowBox[{"First", "@", 
+             RowBox[{"Total", "[", "#", "]"}]}]}], "&"}], ",", "temp"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Convert", " ", "association", " ", "back", " ", "to", " ", "normal", 
+         " ", "expression"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"temp", " ", "=", 
+        RowBox[{"prettyreplace", "@", " ", 
+         RowBox[{"Total", "@", 
+          RowBox[{"KeyValueMap", "[", 
+           RowBox[{"Times", ",", "temp"}], "]"}]}]}]}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "examples", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"getStokeslet", "[", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}]}], "]"}], "//", "prettyprint"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"delta", "[", 
+       RowBox[{
+        RowBox[{"idx", "[", "1", "]"}], ",", 
+        RowBox[{"idx", "[", "2", "]"}]}], "]"}], 
+      RowBox[{"invr", "[", "1", "]"}]}], "+", 
+     RowBox[{
+      RowBox[{"r", "[", 
+       RowBox[{"idx", "[", "1", "]"}], "]"}], 
+      RowBox[{"r", "[", 
+       RowBox[{"idx", "[", "2", "]"}], "]"}], 
+      RowBox[{"invr", "[", "3", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"ugly", "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"a", "[", 
+          RowBox[{"idx", "[", "2", "]"}], "]"}], "+", 
+         RowBox[{"b", "[", 
+          RowBox[{"idx", "[", "2", "]"}], "]"}]}], ")"}], " ", "%"}], "+", 
+      RowBox[{
+       RowBox[{"c", "[", 
+        RowBox[{"idx", "[", "2", "]"}], "]"}], " ", 
+       RowBox[{"partialr", "[", 
+        RowBox[{"%", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"idx", "[", "4", "]"}], ",", 
+           RowBox[{"idx", "[", "4", "]"}]}], "}"}]}], "]"}]}]}], "//", 
+     "contract"}]}], "\[IndentingNewLine]", 
+   RowBox[{"prettyprint", "[", "ugly", "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"2", " ", 
+      RowBox[{"invr", "[", "4", "]"}], " ", 
+      RowBox[{"sqr", "[", "v", "]"}]}], "+", 
+     RowBox[{"4", " ", 
+      RowBox[{"invr", "[", "6", "]"}], " ", 
+      RowBox[{"r", "[", 
+       RowBox[{"idx", "[", "1", "]"}], "]"}], " ", 
+      RowBox[{"r", "[", 
+       RowBox[{"idx", "[", "2", "]"}], "]"}], " ", 
+      RowBox[{"v", "[", 
+       RowBox[{"idx", "[", "1", "]"}], "]"}], " ", 
+      RowBox[{"v", "[", 
+       RowBox[{"idx", "[", "2", "]"}], "]"}]}]}], "//", 
+    "prettyprint"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.70645287545199*^9, {3.7064530423344803`*^9, 3.706453042649481*^9}, {
+   3.7064593197641773`*^9, 3.7064593390785646`*^9}, {3.7064593739385777`*^9, 
+   3.706459379194364*^9}, {3.706459470593525*^9, 3.706459471238529*^9}}]
+}, Open  ]],
+
+Cell[TextData[{
+ "If you are learning Mathematica it is instructive to pick these three \
+functions apart and run them line by line on the examples. Each operation is \
+fairly simple, but requires some understanding of how ",
+ ButtonBox["expressions",
+  BaseStyle->"Link",
+  ButtonData->"paclet:guide/LanguageOverview"],
+ " are represented internally in Mathematica, and what it means to change the \
+",
+ ButtonBox["Head",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Head"],
+ " of an expression (see ",
+ ButtonBox["Apply operator, or @@",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Apply"],
+ "). You will also learn the importance of ",
+ ButtonBox["Map (/@)",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Map"],
+ " as a building block of functional programming."
+}], "Subsubsection",
+ CellChangeTimes->{{3.706453010217019*^9, 3.706453159657887*^9}, {
+  3.706459235307967*^9, 3.7064592902071333`*^9}, {3.706459402052075*^9, 
+  3.706459467279106*^9}, {3.7064595196447783`*^9, 3.7064595753897467`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["6. Next", "Section",
+ CellChangeTimes->{{3.705687975965191*^9, 3.705687995318722*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "We now have the building blocks for a more involved calculation. But an \
+obstacle remains: index management. \n\nTo multiply and simplify large \
+expressions, we must be careful with managing dummy (repeated) indices so \
+that they do not collide. For example, say we want to square the vector ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["e", "ij"], 
+    SubscriptBox["r", "j"]}], TraditionalForm]]],
+ ". The correct way is to take ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["e", "ij"], 
+    SubscriptBox["r", "j"]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["e", "ik"], 
+    SubscriptBox["r", "k"]}], TraditionalForm]]],
+ ", with unique dummy indices. But if we are not careful, we might do:"
+}], "Subsubsection",
+ CellChangeTimes->{{3.704549085142055*^9, 3.704549304544567*^9}, {
+  3.704549396188552*^9, 3.7045495350315847`*^9}, {3.705339338947247*^9, 
+  3.705339397878962*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"y", "=", 
+  RowBox[{
+   RowBox[{"e", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], 
+   RowBox[{"r", "[", 
+    RowBox[{"idx", "[", "2", "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"y", "^", "2"}], "//", "contract"}]}], "Input",
+ CellChangeTimes->{{3.704549307092317*^9, 3.704549309783084*^9}, {
+  3.7045493531258783`*^9, 3.7045493925356417`*^9}, {3.704549536983944*^9, 
+  3.704549562669896*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Which is the wrong result, because we violated the rule that no index may \
+appear more than twice in an expression.
+
+Further, there are more tensor symmetries. 
+
+First, some tensors are symmetric or antisymmetric on exchange of indices, \
+for example\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704549565907674*^9, 3.704549619046956*^9}, {
+  3.705339405060862*^9, 3.705339497654407*^9}, {3.705339564648616*^9, 
+  3.705339671468079*^9}, {3.706459616840969*^9, 3.706459661977489*^9}, {
+  3.706459706124826*^9, 3.706459748772894*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"delta", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "1", "]"}], ",", 
+     RowBox[{"idx", "[", "2", "]"}]}], "]"}], "-", 
+   RowBox[{"delta", "[", 
+    RowBox[{
+     RowBox[{"idx", "[", "2", "]"}], ",", 
+     RowBox[{"idx", "[", "1", "]"}]}], "]"}]}], "//", "contract"}]], "Input",
+ CellChangeTimes->{{3.7064597531066523`*^9, 3.7064597637049723`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+should evaluate to zero.
+
+Second, all expressions are symmetric under renaming of repeated (dummy) \
+indices. For example the following should evaluate to zero:\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.704549565907674*^9, 3.704549619046956*^9}, {
+  3.705339405060862*^9, 3.705339497654407*^9}, {3.705339564648616*^9, 
+  3.705339671468079*^9}, {3.706459616840969*^9, 3.706459661977489*^9}, {
+  3.706459706124826*^9, 3.706459772628841*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"e", "[", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "2", "]"}]}], "]"}], 
+    RowBox[{"r", "[", 
+     RowBox[{"idx", "[", "2", "]"}], "]"}]}], "-", 
+   RowBox[{
+    RowBox[{"e", "[", 
+     RowBox[{
+      RowBox[{"idx", "[", "1", "]"}], ",", 
+      RowBox[{"idx", "[", "3", "]"}]}], "]"}], 
+    RowBox[{"r", "[", 
+     RowBox[{"idx", "[", "3", "]"}], "]"}]}]}], "//", "contract"}]], "Input",
+ CellChangeTimes->{{3.706459663608549*^9, 3.706459702807396*^9}}]
+}, Open  ]],
+
+Cell["We address these questions in tutorial03-symmetries.nb.", \
+"Subsubsection",
+ CellChangeTimes->{{3.706459777245517*^9, 3.706459795049252*^9}}]
+}, Open  ]]
+},
+WindowSize->{890, 610},
+WindowMargins->{{142, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 159, 3, 64, "Section"],
+Cell[742, 27, 3064, 91, 369, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3843, 123, 165, 2, 64, "Section"],
+Cell[4011, 127, 866, 25, 54, "Input"],
+Cell[CellGroupData[{
+Cell[4902, 156, 543, 9, 59, "Subsubsection"],
+Cell[5448, 167, 591, 15, 75, "Input"]
+}, Open  ]],
+Cell[6054, 185, 167, 2, 35, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6258, 192, 122, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[6405, 197, 561, 14, 59, "Subsubsection"],
+Cell[6969, 213, 523, 13, 96, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7529, 231, 1474, 32, 203, "Subsubsection"],
+Cell[9006, 265, 946, 24, 138, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9989, 294, 2243, 36, 539, "Subsubsection"],
+Cell[12235, 332, 1177, 35, 96, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13449, 372, 278, 5, 59, "Subsubsection"],
+Cell[13730, 379, 1842, 51, 201, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15609, 435, 681, 13, 179, "Subsubsection"],
+Cell[16293, 450, 2509, 67, 327, "Input"]
+}, Open  ]],
+Cell[18817, 520, 779, 15, 135, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19633, 540, 103, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[19761, 545, 497, 11, 85, "Subsubsection",
+ InitializationCell->True],
+Cell[20261, 558, 702, 21, 96, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21000, 584, 138, 1, 35, "Subsubsection"],
+Cell[21141, 587, 2988, 83, 348, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24166, 675, 554, 13, 107, "Subsubsection"],
+Cell[24723, 690, 3187, 79, 390, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27959, 775, 109, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[28093, 780, 297, 5, 59, "Subsubsection"],
+Cell[28393, 787, 2150, 55, 201, "Input"]
+}, Open  ]],
+Cell[30558, 845, 407, 7, 83, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[30990, 856, 184, 2, 29, "Subsubsection"],
+Cell[31177, 860, 474, 12, 75, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31688, 877, 566, 11, 107, "Subsubsection"],
+Cell[32257, 890, 1228, 38, 96, "Input"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33534, 934, 105, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[33664, 939, 398, 7, 83, "Subsubsection"],
+Cell[34065, 948, 1333, 38, 54, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35435, 991, 872, 15, 179, "Subsubsection"],
+Cell[36310, 1008, 3309, 76, 411, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39656, 1089, 285, 5, 59, "Subsubsection"],
+Cell[39944, 1096, 4181, 111, 432, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44162, 1212, 351, 6, 59, "Subsubsection"],
+Cell[44516, 1220, 5438, 137, 621, "Input"]
+}, Open  ]],
+Cell[49969, 1360, 1008, 24, 131, "Subsubsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[51014, 1389, 92, 1, 64, "Section"],
+Cell[CellGroupData[{
+Cell[51131, 1394, 968, 26, 163, "Subsubsection"],
+Cell[52102, 1422, 499, 13, 54, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52638, 1440, 543, 12, 155, "Subsubsection"],
+Cell[53184, 1454, 398, 11, 32, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53619, 1470, 452, 9, 107, "Subsubsection"],
+Cell[54074, 1481, 558, 17, 32, "Input"]
+}, Open  ]],
+Cell[54647, 1501, 148, 2, 35, "Subsubsection"]
+}, Open  ]]
+}
+]
+*)
+
