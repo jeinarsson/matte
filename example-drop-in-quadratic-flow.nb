@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     78495,       2259]
-NotebookOptionsPosition[     75954,       2170]
-NotebookOutlinePosition[     76314,       2186]
-CellTagsIndexPosition[     76271,       2183]
+NotebookDataLength[     78536,       2259]
+NotebookOptionsPosition[     75995,       2170]
+NotebookOutlinePosition[     76355,       2186]
+CellTagsIndexPosition[     76312,       2183]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2158,11 +2158,11 @@ Cell[BoxData[{
      RowBox[{"%", "[", 
       RowBox[{"[", "1", "]"}], "]"}]}], "//", "contract"}]}], 
   ";"}], "\[IndentingNewLine]", 
- RowBox[{"shapef", "//", "particleSurfaceIntegral"}], "\[IndentingNewLine]", 
+ RowBox[{"shapef", "//", "unitsphereIntegral"}], "\[IndentingNewLine]", 
  RowBox[{"shapef", "//", "prettyprint"}]}], "Input",
  CellChangeTimes->{{3.7059389834603233`*^9, 3.705939260532584*^9}, {
   3.7059392947646227`*^9, 3.705939365309304*^9}, {3.705943599233286*^9, 
-  3.705943605304369*^9}}]
+  3.705943605304369*^9}, {3.707248227155054*^9, 3.707248228418359*^9}}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -2256,7 +2256,7 @@ Cell[71142, 2034, 1994, 48, 159, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[73173, 2087, 116, 1, 35, "Subsubsection"],
-Cell[73292, 2090, 2610, 74, 264, "Input"]
+Cell[73292, 2090, 2651, 74, 264, "Input"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
