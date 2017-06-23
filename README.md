@@ -1,6 +1,6 @@
 # Matte
 
-Symbolic Cartesian tensor algebra in Mathematica using pattern matching. 
+Symbolic Cartesian tensor algebra in Mathematica using pattern matching.
 
 ## Example
 
@@ -62,3 +62,8 @@ Joe Barakat (Stanford University) for inspiring me to finally clean up and relea
 ## License
 
 Matte is Copyright 2017 Jonas Einarsson and released freely under the MIT License. See [LICENSE](LICENSE).
+
+
+## Contact
+
+email: me at jonaseinarsson.se
