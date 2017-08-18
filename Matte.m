@@ -29,8 +29,8 @@ Clear[renumber, renumberUnique,
   symmetricTensorPattern, antisymmetricTensorPattern, tracelessTensorPattern];
 
 symmetricTensorPattern = delta | e | T[_,_,_] | \[Gamma];
-antisymmetricTensorPattern = o;
-tracelessTensorPattern = e | \[Gamma]; 
+antisymmetricTensorPattern = o | op;
+tracelessTensorPattern = a | e | \[Gamma]; 
 
 symmetryRules = {
 
@@ -216,6 +216,9 @@ Clear[contract, contractNoRenumber];
 
 (* Join tensor and symmetry rules *)
 tensorAndSymmetryRules = Join[tensorRules, symmetryRules];
+
+(* Map over lists of expressions *)
+contractNoRenumber[ex_List] := Map[contractNoRenumber, ex];
 
 (* distribute over terms in sum *)
 contractNoRenumber[ex_Plus] := Map[contractNoRenumber, ex];
