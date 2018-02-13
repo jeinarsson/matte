@@ -60,6 +60,8 @@ Kristian Gustafsson (Gothenburg University) who once upon a time got me started 
 
 Joe Barakat (Stanford University) for inspiring me to finally clean up and release this code.
 
+The Knut & Alice Wallenberg foundation for the generous postdoc grant KAW 2015.0419 that allowed me to work on this.
+
 ## License
 
 Matte is Copyright 2017 Jonas Einarsson and released freely under the MIT License. See [LICENSE](LICENSE).
