@@ -187,6 +187,8 @@ tensorRules = {
    (* contract deltas with other tensors *)
    delta[i_, j_idx] s_ :> (s /. j -> i) /; Not[FreeQ[s, j]],
    delta[j_idx, i_] s_ :> (s /. j -> i) /; Not[FreeQ[s, j]],
+   delta[i_idx,j_Integer]^2 :> 1,
+   delta[i_Integer, j_Integer] :> KroneckerDelta[i,j],
    
    (* traces & squares *)
    s_[_idx]^2 :> sqr[s],
@@ -317,6 +319,31 @@ getScalarPrefactors[ex_] := Module[{temp},
   
   Values[temp]
   ]
+
+  (* Extract all scalar prefactors of expression *)
+Clear[printStructured];
+printStructured[ex_] := Module[{temp,scalars,tensors},
+  
+  (* If not sum, nothing to collect, so just call splitScalarsTensors *)
+  If[Not[Head[ex] === Plus], Return[{splitScalarsTensors[ex][[1]]}]];
+  
+  (* make list of terms in sum *)
+  temp = List @@ ex;
+  
+  (* split each term into scalar and tensorial factors *)
+  temp = splitScalarsTensors /@ temp;
+  
+  (* Group terms with equal tensorial expressions *)
+  temp = GroupBy[temp, Last];
+  
+  (* Combine and simplify scalar prefactors *)
+  scalars = Map[Simplify@First@Total[#] &, temp];
+  
+  tensors = Map[prettyprint@renumber@Last@First[#] &, temp];
+  
+  {Values[scalars], Values[tensors]} //Transpose// MatrixForm[#,TableAlignments->{Right}]&
+  ]
+  
 
 (************
 INTEGRATION
