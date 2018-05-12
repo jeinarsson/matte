@@ -28,9 +28,9 @@ Clear[renumber, renumberUnique,
    symmetryRules,
   symmetricTensorPattern, antisymmetricTensorPattern, tracelessTensorPattern];
 
-symmetricTensorPattern = delta | e | T[_,_,_] | \[Gamma];
-antisymmetricTensorPattern = o | op;
-tracelessTensorPattern = a | e | \[Gamma]; 
+symmetricTensorPattern = delta | e | T[_,_,_] | Q | \[Theta];
+antisymmetricTensorPattern = o | op | eps;
+tracelessTensorPattern = a | e | Q| \[Theta]; 
 
 symmetryRules = {
 
@@ -44,9 +44,9 @@ symmetryRules = {
   s_[___, i_idx, ___, i_idx, ___] :> 0 /; MatchQ[s, tracelessTensorPattern] || MatchQ[s, antisymmetricTensorPattern],
 
   (* two-index contraction of symmetric and antisymmetric tensors give 0 *)
-  s1_[i_idx, j_idx] s2_[idcs__] :> 0 /; (MatchQ[s1, antisymmetricTensorPattern] && MatchQ[s2, symmetricTensorPattern]) && ContainsAll[List[idcs], {i, j}],
-  s1_[i_idx, j_idx] s2_[idcs__] :> 0 /; (MatchQ[s1, symmetricTensorPattern] && MatchQ[s2, antisymmetricTensorPattern]) && ContainsAll[List[idcs], {i, j}],
-  s1_[i_idx, j_idx] v_[i_] v_[j_] :> 0 /; MatchQ[s1, antisymmetricTensorPattern]
+  s1_[___,i_idx,___, j_idx,___] s2_[idcs__] :> 0 /; (MatchQ[s1, antisymmetricTensorPattern] && MatchQ[s2, symmetricTensorPattern]) && ContainsAll[List[idcs], {i, j}],
+  s1_[___,i_idx,___, j_idx,___] s2_[idcs__] :> 0 /; (MatchQ[s1, symmetricTensorPattern] && MatchQ[s2, antisymmetricTensorPattern]) && ContainsAll[List[idcs], {i, j}],
+  s1_[___,i_idx,___, j_idx,___] v_[i_] v_[j_] :> 0 /; MatchQ[s1, antisymmetricTensorPattern]
 };
 
 
@@ -63,7 +63,7 @@ renumber[ex_Plus] := Map[renumber, ex]
 (* If free of sums, do actual renumbering *)
 renumber[expr_] := Module[{ex, exidxs,
     allidx, idxWithCounts, freeIndices, dummyIndices, highestFreeIndex,
-    newDummyIndices, dummyPositions, dummyOrdering, dummyRules},
+    newDummyIndices, dummyPositions, dummyHeads, dummyOrdering, dummyRules},
    
    ex = expr //. symmetryRules;
    exidxs = ex /. s_[idxsequence : _idx ..]^2 :> idxs[idxsequence, idxsequence];
@@ -79,7 +79,8 @@ renumber[expr_] := Module[{ex, exidxs,
    newDummyIndices = Table[idx[highestFreeIndex + k], {k, 1, Length[dummyIndices]}];
    dummyPositions = (Position[ex, #]) & /@ dummyIndices;
    dummyPositions = Map[If[Length[#] > 1, First /@ #, First[#]] &, dummyPositions];
-   dummyOrdering = Ordering[dummyPositions];
+   dummyHeads = Map[Head@Extract[ex, #] &, dummyPositions, {2}];
+   dummyOrdering = Ordering[dummyHeads];
    dummyRules = Table[
      dummyIndices[[dummyOrdering[[k]]]] -> newDummyIndices[[k]]
      , {k, 1, Length[dummyIndices]}];
@@ -96,7 +97,7 @@ renumberUnique[ex_Plus] := Map[renumberUnique, ex]
 (* If free of sums, do actual renumbering *)
 renumberUnique[expr_] := Module[{ex, exidxs,
     allidx, idxWithCounts, freeIndices, dummyIndices,
-    newDummyIndices, dummyPositions, dummyOrdering, dummyRules},
+    newDummyIndices, dummyPositions, dummyHeads, dummyOrdering, dummyRules},
    
    ex = expr //. symmetryRules;
    exidxs = ex /. s_[idxsequence : _idx ..]^2 :> idxs[idxsequence, idxsequence];
@@ -108,7 +109,8 @@ renumberUnique[expr_] := Module[{ex, exidxs,
    newDummyIndices = Table[getNewIndex[], {k, 1, Length[dummyIndices]}];
    dummyPositions = (Position[ex, #]) & /@ dummyIndices;
    dummyPositions = Map[If[Length[#] > 1, First /@ #, First[#]] &, dummyPositions];
-   dummyOrdering = Ordering[dummyPositions];
+   dummyHeads = Map[Head@Extract[ex, #] &, dummyPositions, {2}];
+   dummyOrdering = Ordering[dummyHeads];
    dummyRules = Table[
      dummyIndices[[dummyOrdering[[k]]]] -> newDummyIndices[[k]]
      , {k, 1, Length[dummyIndices]}];
@@ -189,6 +191,17 @@ tensorRules = {
    delta[j_idx, i_] s_ :> (s /. j -> i) /; Not[FreeQ[s, j]],
    delta[i_idx,j_Integer]^2 :> 1,
    delta[i_Integer, j_Integer] :> KroneckerDelta[i,j],
+
+   (* levi-civita contractions*)
+   eps[i_idx,k_,l_]eps[i_, p_, q_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[i_idx,k_,l_]eps[q_, i_, p_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[i_idx,k_,l_]eps[p_, q_, i_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[l_, i_idx, k_]eps[i_, p_, q_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[l_, i_idx, k_]eps[q_, i_, p_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[l_, i_idx, k_]eps[p_, q_, i_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[k_, l_, i_idx]eps[i_, p_, q_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[k_, l_, i_idx]eps[q_, i_, p_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
+   eps[k_, l_, i_idx]eps[p_, q_, i_] :> delta[k,p]delta[l,q]-delta[k,q]delta[l,p],
    
    (* traces & squares *)
    s_[_idx]^2 :> sqr[s],
