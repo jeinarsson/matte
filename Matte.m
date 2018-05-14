@@ -171,6 +171,7 @@ trace[before___, -x_, after___] := -trace[before, x, after]
 trace[tracelessTensorPattern] := 0;
 trace[antisymmetricTensorPattern] := 0;
 trace[delta ..] := 3
+sqr[delta]:=3
 
 (* Replacement rules *)
 tensorRules = {
@@ -310,6 +311,29 @@ prettyprint[ex_] := Module[{temp},
   (* Convert association back to normal expression *)
   temp = prettyreplace @ Total @ KeyValueMap[Times, temp]
   ]
+
+
+(* Extract all tensorial forms of expression *)
+Clear[getTensorialForms];
+getTensorialForms[ex_] := Module[{temp},
+  
+  (* If not sum, nothing to collect, so just call splitScalarsTensors *)
+  If[Not[Head[ex] === Plus], Return[{splitScalarsTensors[ex][[1]]}]];
+  
+  (* make list of terms in sum *)
+  temp = List @@ ex;
+  
+  (* split each term into scalar and tensorial factors *)
+  temp = splitScalarsTensors /@ temp;
+  
+  (* Extract unique tensorial factors *)
+  temp = Map[Last, temp]//DeleteDuplicates;
+
+  (* Prettyprint result *)
+  Map[prettyprint@renumber[#]&, temp]
+
+  ]  
+
 
 (* Extract all scalar prefactors of expression *)
 Clear[getScalarPrefactors];
@@ -506,7 +530,7 @@ invfourierT[T[l_, l_, k][idc__]] := (-1)^l Psi[0, l] invr[3] T[l, l, r][idc] /;
   Not[l <= 0 && EvenQ[l]] && Not[-l - 3 >= 0 && EvenQ[-l - 3]]
 
 
-Print["Matte package loaded. © 2017 Jonas Einarsson (me@jonaseinarsson.se)"]
+Print["Matte package loaded. © 2017-2018 Jonas Einarsson (me@jonaseinarsson.se)"]
 Print["Released under the MIT License https://opensource.org/licenses/MIT"]
 
 EndPackage[]
