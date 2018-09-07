@@ -9,7 +9,7 @@ Symbolic Cartesian tensor algebra in Mathematica using pattern matching.
 
 ## Getting started
 
-I believe the only reasonable way to use this code is to understand it. Luckily it is only a few hundred lines of relatively simple code, and I explain the entire implementation in a series of tutorial notebooks.
+Matte is only a few hundred lines of relatively simple code, and I explain the entire implementation in a series of tutorial notebooks. Following through the tutorial will get you started with doing calculations.
 
 Clone this repository, or [download the master branch as a .zip](https://github.com/jeinarsson/matte/archive/master.zip) to get all files mentioned below.
 
@@ -64,7 +64,7 @@ The Knut & Alice Wallenberg foundation for the generous postdoc grant KAW 2015.0
 
 ## License
 
-Matte is Copyright 2017 Jonas Einarsson and released freely under the MIT License. See [LICENSE](LICENSE).
+Matte is Copyright 2017-2018 Jonas Einarsson and released freely under the MIT License. See [LICENSE](LICENSE).
 
 
 ## Contact
